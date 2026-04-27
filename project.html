@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindWell - Student Mental Health Support</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #87CEEB;
+            --card-bg: white;
+            --icon-color: #008080;
+            --highlight: #FFDAB9;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --border-radius: 15px;
+            --shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --card-bg: #16213e;
+            --icon-color: #00d4aa;
+            --highlight: #ff8c69;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: all 0.5s ease;
+            min-height: 100vh;
+        }
+        .ai-doctor-img, .yoga-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: var(--shadow);
+            border: 5px solid var(--icon-color);
+        }
+        .welcome-img, .getstarted-img {
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 2rem;
+        }
+        .fixed-hero {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-primary), #98D8E8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1000;
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--icon-color), #20b2aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            z-index: 1001;
+        }
+        .btn-get-started, .btn-primary, .game-btn {
+            background: linear-gradient(45deg, var(--icon-color), #20b2aa);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            margin: 0.5rem;
+        }
+        .btn-get-started:hover, .btn-primary:hover, .game-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,128,128,0.4);
+        }
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--highlight);
+            color: var(--text-primary);
+            border: none;
+            padding: 1rem;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            transform: scale(1.1);
+            background: var(--icon-color);
+            color: white;
+        }
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 80px;
+        }
+        .page.active {
+            display: block;
+        }
+        .header {
+            background: var(--card-bg);
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            color: var(--icon-color);
+            font-size: 1.8rem;
+        }
+        .tagline {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        .dark-toggle {
+            background: var(--highlight);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        .dark-toggle:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+        /* Horizontal Scrollable Icons */
+        .icon-scroll-container {
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--icon-color) transparent;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        .icon-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .icon-scroll-container::-webkit-scrollbar-track {
+            background: var(--highlight);
+            border-radius: 10px;
+        }
+        .icon-scroll-container::-webkit-scrollbar-thumb {
+            background: var(--icon-color);
+            border-radius: 10px;
+        }
+        .icon-grid {
+            display: flex;
+            gap: 1rem;
+            min-width: max-content;
+            padding: 1rem 0;
+        }
+        .icon-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--icon-color);
+            min-width: 180px;
+            flex-shrink: 0;
+        }
+        .icon-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+        .icon-card i {
+            font-size: 2.5rem;
+            color: var(--icon-color);
+            margin-bottom: 0.8rem;
+        }
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .help-section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+        .problems-section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        .mood-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+            justify-content: center;
+        }
+        .mood-btn {
+            padding: 1.2rem 1.8rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 130px;
+            font-weight: bold;
+        }
+        .mood-happy { 
+            background: #fffacd !important; 
+            color: #d4a017;
+            border: 3px solid #ffd700;
+        }
+        .mood-calm { 
+            background: #add8e6 !important; 
+            color: #4682b4;
+            border: 3px solid #87ceeb;
+        }
+        .mood-sad { 
+            background: #e6e6fa !important; 
+            color: #9370db;
+            border: 3px solid #ba55d3;
+        }
+        .mood-angry { 
+            background: #ffb6c1 !important; 
+            color: #dc143c;
+            border: 3px solid #ff69b4;
+        }
+        .mood-btn:hover, .mood-btn.active {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        body.mood-happy { background: linear-gradient(135deg, #fffacd, #ffe4b5) !important; }
+        body.mood-calm { background: linear-gradient(135deg, #add8e6, #b0e0e6) !important; }
+        body.mood-sad { background: linear-gradient(135deg, #e6e6fa, #d8bfd8) !important; }
+        body.mood-angry { background: linear-gradient(135deg, #ffb6c1, #ffc1cc) !important; }
+        .content-hidden { display: none; }
+        .content-visible {
+            display: block;
+            animation: slideDown 0.5s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 800px; }
+        }
+        .helpline {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
+        }
+        .problem-btn, .resource-btn {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: var(--highlight);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        .problem-btn:hover, .resource-btn:hover {
+            background: var(--icon-color);
+            color: white;
+            transform: translateX(10px);
+        }
+        .resource-grid, .yoga-grid, .games-grid, .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .login-form {
+            max-width: 450px;
+            margin: 3rem auto;
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        .chat-container {
+            height: 450px;
+            border: 3px solid var(--icon-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            overflow-y: auto;
+            background: var(--card-bg);
+            margin-bottom: 1.5rem;
+        }
+        .game-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .story-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin: 1rem 0;
+        }
+        .audio-player {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        @media (max-width: 768px) {
+            .two-column { grid-template-columns: 1fr; }
+            .welcome-img, .getstarted-img { width: 250px; height: 250px; }
+            .ai-doctor-img, .yoga-img { width: 100px; height: 100px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Page - CHANGED TO MEDICAL KIT IMAGE -->
+    <div id="welcomePage" class="fixed-hero page active">
+        <img src="c:\Users\snigdha\OneDrive\Pictures\Camera Roll\ACIP-framework-illustration-of-brain.jpg">
+        <h1 class="logo">MindWell</h1>
+        <p style="font-size: 1.5rem; color: rgba(255,255,255,0.9); max-width: 500px;">
+            AI-Powered Student Mental Health Support Platform
+        </p>
+        <button class="btn-get-started" onclick="showPage('getStartedPage')">
+            <i class="fas fa-rocket"></i> Get Started
+        </button>
+    </div>
+
+    <!-- Get Started Page -->
+    <div id="getStartedPage" class="fixed-hero page">
+        <button class="back-btn" onclick="showPage('welcomePage')">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <img src="c:\Users\snigdha\OneDrive\Pictures\Camera Roll\medicine-doctor-holding-red-heart-shape-in-hand-with-medical-icon-network-connection-modern-virtual-screen-interface-service-mind-and-medical-technology-network-concept-photo.jpg">
+        <h1 class="logo" style="color: white !important; -webkit-text-fill-color: white;">MindWell</h1>
+        <p style="font-size: 1.3rem; color: rgba(255,255,255,0.9);">
+            Ready to start your mental wellness journey?
+        </p>
+        <button class="btn-get-started" onclick="showPage('loginPage')">
+            Continue to Login
+        </button>
+    </div>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="page">
+        <button class="back-btn" onclick="showPage('getStartedPage')">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="header">
+            <h1><i class="fas fa-brain"></i> MindWell</h1>
+            <button class="dark-toggle" onclick="toggleDarkMode()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+        <div class="login-form">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: var(--icon-color);">
+                <i class="fas fa-sign-in-alt"></i> Welcome Back
+            </h2>
+            <form onsubmit="handleLogin(event)">
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-primary);">
+                        <i class="fas fa-user"></i> Username
+                    </label>
+                    <input type="text" id="username" required style="width: 100%; padding: 1rem; border: 2px solid #e0e0e0; border-radius: var(--border-radius); font-size: 1rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-primary);">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <input type="password" id="password" required style="width: 100%; padding: 1rem; border: 2px solid #e0e0e0; border-radius: var(--border-radius); font-size: 1rem;">
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Login to MindWell
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page">
+        <div class="header">
+            <div>
+                <h1><i class="fas fa-brain"></i> MindWell</h1>
+                <p class="tagline">Empowering Student Mental Wellness</p>
+            </div>
+            <button class="dark-toggle" onclick="toggleDarkMode()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+
+        <!-- Horizontal Scrollable Icons - FULL ACCESS TO ALL FEATURES -->
+        <div class="icon-scroll-container">
+            <div class="icon-grid">
+                <div class="icon-card" onclick="showPage('moodPage')">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>Mood Tracker</h3>
+                </div>
+                <div class="icon-card" onclick="showPage('chatbotPage')">
+                    <i class="fas fa-robot"></i>
+                    <h3>AI Chatbot</h3>
+                </div>
+                <div class="icon-card" onclick="showPage('journalPage')">
+                    <i class="fas fa-book"></i>
+                    <h3>Journal</h3>
+                </div>
+                <div class="icon-card" onclick="showPage('counselingPage')">
+                    <i class="fas fa-user-md"></i>
+                    <h3>Counseling</h3>
+                </div>
+                <div class="icon-card" onclick="showPage('gamesPage')">
+                    <i class="fas fa-gamepad"></i>
+                    <h3>Relax Games</h3>
+                </div>
+                <div class="icon-card" onclick="showPage('storiesPage')">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Relax Stories</h3>
+                </div>
+                <div class="icon-card" onclick="showPage('yogaPage')">
+                    <i class="fas fa-spa"></i>
+                    <h3>Yoga Poses</h3>
+                </div>
+                <div class="icon-card" onclick="showPage('resourcesPage')">
+                    <i class="fas fa-bookmark"></i>
+                    <h3>Mental Resources</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two Column Layout: Help + Problems -->
+        <div class="two-column">
+            <!-- How Can I Help You - AI Doctor -->
+            <div class="help-section">
+                <h2 style="color: var(--icon-color); margin-bottom: 1.5rem;">
+                    <i class="fas fa-user-md"></i> How Can I Help You Today?
+                </h2>
+                <div style="margin-bottom: 2rem;">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&fit=crop&crop=face" 
+                         alt="AI Doctor" class="ai-doctor-img">
+                    <p style="font-size: 1.1rem; margin-top: 1rem;">Dr. MindWell AI 🤖<br>Your 24/7 Mental Health Companion</p>
+                </div>
+                <textarea id="helpQuestion" placeholder="Ask me anything about your mental health..." 
+                    style="width: 100%; height: 120px; padding: 1.2rem; border-radius: var(--border-radius); border: 3px solid var(--icon-color); resize: vertical; font-size: 1rem;"></textarea>
+                <button class="btn-primary" onclick="askHelp()" style="width: 100%; margin-top: 1rem;">
+                    <i class="fas fa-paper-plane"></i> Ask AI Doctor
+                </button>
+            </div>
+
+            <!-- Problems Faced by Students Column - FULL CONTENT ADDED -->
+            <div class="problems-section">
+                <h2 style="color: var(--icon-color); margin-bottom: 1.5rem;">
+                    <i class="fas fa-exclamation-triangle"></i> Common Student Problems
+                </h2>
+                <div id="problemsList">
+                    <button class="problem-btn" onclick="toggleProblem('academic')">
+                        📚 Academic Stress <i class="fas fa-chevron-down" style="float: right;"></i>
+                    </button>
+                    <div id="academic" class="content-hidden">
+                        <h4 style="color: var(--icon-color);">💡 4 Tips</h4>
+                        <ul style="margin: 1rem 0;">
+                            <li>• Break tasks into smaller chunks</li>
+                            <li>• Use Pomodoro technique (25 min study)</li>
+                            <li>• Create weekly study schedules</li>
+                            <li>• Practice mindfulness daily</li>
+                        </ul>
+                        <h4 style="color: var(--icon-color);">🎯 4 Causes</h4>
+                        <ul><li>• High parental expectations</li><li>• Poor time management</li><li>• Fear of failure</li><li>• Overloaded curriculum</li></ul>
+                        <h4 style="color: var(--icon-color);">✅ Solutions</h4>
+                        <ul><li>• Seek academic counseling</li><li>• Join study groups</li><li>• Practice stress-relief yoga</li></ul>
+                    </div>
+                    <button class="problem-btn" onclick="toggleProblem('depression')">
+                        😢 Depression <i class="fas fa-chevron-down" style="float: right;"></i>
+                    </button>
+                    <div id="depression" class="content-hidden">
+                        <h4 style="color: var(--icon-color);">💡 4 Tips</h4>
+                        <ul><li>• Practice daily gratitude</li><li>• Get sunlight exposure</li><li>• Exercise 30 mins daily</li><li>• Talk to trusted friend</li></ul>
+                        <h4 style="color: var(--icon-color);">🎯 Causes</h4>
+                        <ul><li>• Chemical imbalance</li><li>• Chronic stress</li><li>• Isolation</li><li>• Trauma</li></ul>
+                        <h4 style="color: var(--icon-color);">✅ Solutions</h4>
+                        <ul><li>• Professional therapy</li><li>• Medication if needed</li><li>• Support groups</li></ul>
+                    </div>
+                    <button class="problem-btn" onclick="toggleProblem('anxiety')">
+                        😰 Anxiety <i class="fas fa-chevron-down" style="float: right;"></i>
+                    </button>
+                    <div id="anxiety" class="content-hidden">
+                        <h4 style="color: var(--icon-color);">💡 4 Tips</h4>
+                        <ul><li>• 4-7-8 breathing technique</li><li>• Grounding exercise (5-4-3-2-1)</li><li>• Progressive muscle relaxation</li><li>• Limit caffeine</li></ul>
+                        <h4 style="color: var(--icon-color);">🎯 Causes</h4>
+                        <ul><li>• Overthinking</li><li>• Perfectionism</li><li>• Uncertainty</li><li>• Social pressure</li></ul>
+                        <h4 style="color: var(--icon-color);">✅ Solutions</h4>
+                        <ul><li>• CBT therapy</li><li>• Mindfulness apps</li><li>• Journaling</li></ul>
+                    </div>
+                    <button class="problem-btn" onclick="toggleProblem('time')">
+                        ⏰ Time Management <i class="fas fa-chevron-down" style="float: right;"></i>
+                    </button>
+                    <div id="time" class="content-hidden">
+                        <h4 style="color: var(--icon-color);">💡 4 Tips</h4>
+                        <ul><li>• Eisenhower matrix</li><li>• Time blocking</li><li>• Weekly planning</li><li>• Say no to distractions</li></ul>
+                        <h4 style="color: var(--icon-color);">🎯 Causes</h4>
+                        <ul><li>• Procrastination</li><li>• Multitasking</li><li>• Poor planning</li></ul>
+                        <h4 style="color: var(--icon-color);">✅ Solutions</h4>
+                        <ul><li>• Use planner apps</li><li>• Set deadlines</li><li>• Focus blocks</li></ul>
+                    </div>
+                    <button class="problem-btn" onclick="toggleProblem('sleep')">
+                        😴 Lack of Sleep <i class="fas fa-chevron-down" style="float: right;"></i>
+                    </button>
+                    <div id="sleep" class="content-hidden">
+                        <h4 style="color: var(--icon-color);">💡 4 Tips</h4>
+                        <ul><li>• 10 PM - 6 AM sleep schedule</li><li>• No screens 1hr before bed</li><li>• Cool dark room</li><li>• Bed = sleep only</li></ul>
+                        <h4 style="color: var(--icon-color);">🎯 Causes</h4>
+                        <ul><li>• Late night studying</li><li>• Phone addiction</li><li>• Stress</li></ul>
+                        <h4 style="color: var(--icon-color);">✅ Solutions</h4>
+                        <ul><li>• Sleep hygiene routine</li><li>• Melatonin supplements</li><li>• Consistent schedule</li></ul>
+                    </div>
+                    <button class="problem-btn" onclick="toggleProblem('motivation')">
+                        💤 Lack of Motivation <i class="fas fa-chevron-down" style="float: right;"></i>
+                    </button>
+                    <div id="motivation" class="content-hidden">
+                        <h4 style="color: var(--icon-color);">💡 4 Tips</h4>
+                        <ul><li>• 5 min rule (just start)</li><li>• Reward system</li><li>• Visualize success</li><li>• Accountability partner</li></ul>
+                        <h4 style="color: var(--icon-color);">🎯 Causes</h4>
+                        <ul><li>• Burnout</li><li>• No clear goals</li><li>• Overwhelm</li></ul>
+                        <h4 style="color: var(--icon-color);">✅ Solutions</h4>
+                        <ul><li>• Goal setting</li><li>• Habit stacking</li><li>• Rest breaks</li></ul>
+                    </div>
+                    <button class="problem-btn" onclick="toggleProblem('social')">
+                        😨 Social Fear <i class="fas fa-chevron-down" style="float: right;"></i>
+                    </button>
+                    <div id="social" class="content-hidden">
+                        <h4 style="color: var(--icon-color);">💡 4 Tips</h4>
+                        <ul><li>• Start with small talk</li><li>• Smile + eye contact</li><li>• Ask open questions</li><li>• Practice daily</li></ul>
+                        <h4 style="color: var(--icon-color);">🎯 Causes</h4>
+                        <ul><li>• Past rejection</li><li>• Low confidence</li><li>• Overthinking</li></ul>
+                        <h4 style="color: var(--icon-color);">✅ Solutions</h4>
+                        <ul><li>• Social skills training</li><li>• Join clubs</li><li>• Exposure therapy</li></ul>
+                    </div>
+                    <button class="problem-btn" onclick="toggleProblem('exam')">
+                        📝 Exam Pressure <i class="fas fa-chevron-down" style="float: right;"></i>
+                    </button>
+                    <div id="exam" class="content-hidden">
+                        <h4 style="color: var(--icon-color);">💡 4 Tips</h4>
+                        <ul><li>• Practice past papers</li><li>• Active recall study</li><li>• Sleep before exam</li><li>• Positive self-talk</li></ul>
+                        <h4 style="color: var(--icon-color);">🎯 Causes</h4>
+                        <ul><li>• High expectations</li><li>• Comparison</li><li>• Poor preparation</li></ul>
+                        <h4 style="color: var(--icon-color);">✅ Solutions</h4>
+                        <ul><li>• Exam strategies</li><li>• Mock tests</li><li>• Relaxation techniques</li></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Helpline Numbers -->
+        <div class="helpline">
+            <h3 style="margin-bottom: 1rem;">🆘 EMERGENCY HELPLINE NUMBERS</h3>
+            <div style="font-size: 1.2rem;">
+                <p><strong>🇮🇳 INDIA:</strong> 9152987821 (iCall) | 104 (KIRAN 24x7)</p>
+                <p><strong>🌍 INTERNATIONAL:</strong> 988 (USA) | 116123 (UK Samaritans)</p>
+                <p style="font-size: 0.9rem; margin-top: 1rem;">*Save these numbers now*</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- COUNSELING PAGE - FULLY FUNCTIONAL -->
+    <div id="counselingPage" class="page">
+        <button class="back-btn" onclick="goHome()">
+            <i class="fas fa-home"></i>
+        </button>
+        <div class="header">
+            <h1><i class="fas fa-user-md"></i> Counseling</h1>
+            <button class="dark-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+        </div>
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div style="background: var(--card-bg); padding: 3rem; border-radius: var(--border-radius); box-shadow: var(--shadow); text-align: center;">
+                <h2 style="color: var(--icon-color);">💙 Professional Counseling Services</h2>
+                <p style="margin: 2rem 0; font-size: 1.1rem;">Connect with certified counselors for personalized support</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                    <div style="padding: 2rem; background: var(--highlight); border-radius: var(--border-radius);">
+                        <h3>🆓 Free Counseling</h3>
+                        <p>College counseling centers (Free for students)</p>
+                        <button class="btn-primary" onclick="alert('📞 Contact your college counselor\n✅ Usually free for students\n🕒 Book appointment via student portal')">Book Now</button>
+                    </div>
+                    <div style="padding: 2rem; background: var(--highlight); border-radius: var(--border-radius);">
+                        <h3>📱 Online Therapy</h3>
+                        <p>YourDost, YourSpace, Mind.fit</p>
+                        <button class="btn-primary" onclick="window.open('https://yourdost.com/')">Start Session</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAMES PAGE - 6 RELAXATION GAMES WITH SYMBOLS -->
+    <div id="gamesPage" class="page">
+        <button class="back-btn" onclick="goHome()">
+            <i class="fas fa-home"></i>
+        </button>
+        <div class="header">
+            <h1><i class="fas fa-gamepad"></i> 🎮 Relax Games</h1>
+            <button class="dark-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+        </div>
+        <div class="games-grid">
+            <div class="game-container">
+                <h3>🧘‍♂️ Breathing Game</h3>
+                <button class="game-btn" onclick="breathingGame()">🎯 Play Game</button>
+            </div>
+            <div class="game-container">
+                <h3>🌈 Color Match</h3>
+                <button class="game-btn" onclick="colorMatchGame()">🎨 Play Game</button>
+            </div>
+            <div class="game-container">
+                <h3>🍃 Bubble Pop</h3>
+                <button class="game-btn" onclick="bubblePopGame()">💥 Play Game</button>
+            </div>
+            <div class="game-container">
+                <h3>🌀 Spin Wheel</h3>
+                <button class="game-btn" onclick="spinWheelGame()">🎡 Spin Now</button>
+            </div>
+            <div class="game-container">
+                <h3>✨ Gratitude Jar</h3>
+                <button class="game-btn" onclick="gratitudeGame()">💖 Add Gratitude</button>
+            </div>
+            <div class="game-container">
+                <h3>🌟 Affirmation Cards</h3>
+                <button class="game-btn" onclick="affirmationGame()">🃏 Draw Card</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STORIES PAGE - 4 STORIES WITH LISTEN & READ -->
+    <div id="storiesPage" class="page">
+        <button class="back-btn" onclick="goHome()">
+            <i class="fas fa-home"></i>
+        </button>
+        <div class="header">
+            <h1><i class="fas fa-book-open"></i> 📖 Relax Stories</h1>
+            <button class="dark-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+        </div>
+        <div class="stories-grid">
+            <div class="story-container">
+                <h3>🌙 Bedtime Story 1</h3>
+                <button class="btn-primary" onclick="toggleStory('story1')">👂 Listen</button>
+                <button class="btn-primary" onclick="toggleStory('story1')">📖 Read</button>
+                <div id="story1" class="content-hidden">
+                    <p>Once upon a time in a peaceful forest, a little rabbit learned to breathe slowly and watch the stars...</p>
+                    <audio class="audio-player" controls>
+                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+                    </audio>
+                </div>
+            </div>
+            <div class="story-container">
+                <h3>🌊 Ocean Journey</h3>
+                <button class="btn-primary" onclick="toggleStory('story2')">👂 Listen</button>
+                <button class="btn-primary" onclick="toggleStory('story2')">📖 Read</button>
+                <div id="story2" class="content-hidden">
+                    <p>Imagine floating on gentle waves, feeling the warm sun on your face as seagulls call softly...</p>
+                </div>
+            </div>
+            <div class="story-container">
+                <h3>🌳 Forest Walk</h3>
+                <button class="btn-primary" onclick="toggleStory('story3')">👂 Listen</button>
+                <button class="btn-primary" onclick="toggleStory('story3')">📖 Read</button>
+                <div id="story3" class="content-hidden">
+                    <p>Walking through tall trees, leaves rustling softly, sunlight filtering through branches...</p>
+                </div>
+            </div>
+            <div class="story-container">
+                <h3>☁️ Cloud Watching</h3>
+                <button class="btn-primary" onclick="toggleStory('story4')">👂 Listen</button>
+                <button class="btn-primary" onclick="toggleStory('story4')">📖 Read</button>
+                <div id="story4" class="content-hidden">
+                    <p>Lying on soft grass, watching clouds drift by, feeling completely relaxed and safe...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YOGA PAGE - WITH PICTURES -->
+    <div id="yogaPage" class="page">
+        <button class="back-btn" onclick="goHome()">
+            <i class="fas fa-home"></i>
+        </button>
+        <div class="header">
+            <h1><i class="fas fa-spa"></i> 🧘 Yoga Poses</h1>
+            <button class="dark-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+        </div>
+        <div class="yoga-grid">
+            <div style="background: var(--card-bg); padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow); text-align: center;">
+                <img src="c:\Users\DR Lab 2\Downloads\girl-doing-yoga-exercise-slim-sporty-young-woman-relaxing-in-child-yoga-pose-flat-style-illustration-vector.jpg>
+                <h3>👶 Child Pose</h3>
+                <p>Relieves stress, calms mind</p>
+            </div>
+            <div style="background: var(--card-bg); padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow); text-align: center;">
+                <img src="c:\Users\DR Lab 2\Downloads\fd235c9658dcbcd918a5002f6cca2166.jpg">
+                <h3>🌳 Tree Pose</h3>
+                <p>Improves focus & balance</p>
+            </div>
+            <div style="background: var(--card-bg); padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow); text-align: center;">
+                <img src="https://images.unsplash.com/photo-1572125846216-87a5c0bf1a20?w=200&fit=crop" alt="Cat Cow" class="yoga-img">
+                <h3>🐱 Cat-Cow</h3>
+                <p>Releases back tension</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESOURCES PAGE - FULL FEATURES WITH TOGGLE CONTENT -->
+    <div id="resourcesPage" class="page">
+        <button class="back-btn" onclick="goHome()">
+            <i class="fas fa-home"></i>
+        </button>
+        <div class="header">
+            <h1><i class="fas fa-bookmark"></i> Mental Health Resources</h1>
+            <button class="dark-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+        </div>
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div id="resourcesList">
+                <button class="resource-btn" onclick="toggleResource('academic-stress')">
+                    📚 Academic Stress <i class="fas fa-chevron-down" style="float: right;"></i>
+                </button>
+                <div id="academic-stress" class="content-hidden">
+                    <h4>💡 Quick Tips:</h4>
+                    <ul><li>Pomodoro: 25min study, 5min break</li><li>Weekly planner</li><li>Study groups</li></ul>
+                </div>
+                <button class="resource-btn" onclick="toggleResource('anxiety')">
+                    😰 Anxiety Tools <i class="fas fa-chevron-down" style="float: right;"></i>
+                </button>
+                <div id="anxiety" class="content-hidden">
+                    <h4>🧘 Techniques:</h4>
+                    <ul><li>4-7-8 breathing</li><li>Grounding 54321</li><li>Box breathing</li></ul>
+                </div>
+                <button class="resource-btn" onclick="toggleResource('emotional')">
+                    💙 Emotional Support <i class="fas fa-chevron-down" style="float: right;"></i>
+                </button>
+                <div id="emotional" class="content-hidden">
+                    <h4>🤗 Support:</h4>
+                    <ul><li>Call friend</li><li>College counselor</li><li>Helplines: 104</li></ul>
+                </div>
+                <button class="resource-btn" onclick="toggleResource('selfhelp')">
+                    🛠️ Self Help Tools <i class="fas fa-chevron-down" style="float: right;"></i>
+                </button>
+                <div id="selfhelp" class="content-hidden">
+                    <h4>📱 Apps:</h4>
+                    <ul><li>Headspace</li><li>Calm</li><li>YourDost</li></ul>
+                </div>
+                <button class="resource-btn" onclick="toggleResource('stress-management')">
+                    😌 Stress Management <i class="fas fa-chevron-down" style="float: right;"></i>
+                </button>
+                <div id="stress-management" class="content-hidden">
+                    <h4>🌿 Methods:</h4>
+                    <ul><li>Deep breathing</li><li>Progressive relaxation</li><li>Nature walks</li></ul>
+                </div>
+                <button class="resource-btn" onclick="toggleResource('articles')">
+                    📖 Mental Health Articles <i class="fas fa-chevron-down" style="float: right;"></i>
+                </button>
+                <div id="articles" class="content-hidden">
+                    <h4>🔗 Recommended:</h4>
+                    <ul><li>WHO Mental Health</li><li>NIMHANS Resources</li></ul>
+                </div>
+                <button class="resource-btn" onclick="toggleResource('affirmations')">
+                    ✨ Positive Affirmations <i class="fas fa-chevron-down" style="float: right;"></i>
+                </button>
+                <div id="affirmations" class="content-hidden">
+                    <h4>💫 Daily:</h4>
+                    <ul><li>"I am enough"</li><li>"I grow with challenges"</li><li>"I choose peace"</li></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OTHER PAGES (unchanged) -->
+    <div id="moodPage" class="page">
+        <button class="back-btn" onclick="goHome()">
+            <i class="fas fa-home"></i>
+        </button>
+        <div class="header">
+            <h1><i class="fas fa-heartbeat"></i> Mood Tracker</h1>
+            <button class="dark-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+        </div>
+        <div style="text-align: center; background: var(--card-bg); padding: 3rem; border-radius: var(--border-radius); box-shadow: var(--shadow); max-width: 600px; margin: 2rem auto;">
+            <h2 style="color: var(--icon-color); margin-bottom: 2rem;">How are you feeling today?</h2>
+            <div class="mood-buttons">
+                <button class="mood-btn mood-happy" onclick="selectMood('happy')">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">😊</div>
+                    Happy
+                </button>
+                <button class="mood-btn mood-calm" onclick="selectMood('calm')">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">😌</div>
+                    Calm
+                </button>
+                <button class="mood-btn mood-sad" onclick="selectMood('sad')">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">😢</div>
+                    Sad
+                </button>
+                <button class="mood-btn mood-angry" onclick="selectMood('angry')">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">😠</div>
+                    Angry
+                </button>
+            </div>
+            <div id="moodTips" style="margin-top: 2.5rem; padding: 2rem; background: var(--highlight); border-radius: var(--border-radius);"></div>
+        </div>
+    </div>
+
+    <div id="chatbotPage" class="page">
+        <button class="back-btn" onclick="goHome()">
+            <i class="fas fa-home"></i>
+        </button>
+        <div class="header">
+            <h1><i class="fas fa-robot"></i> AI Chatbot</h1>
+            <button class="dark-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+        </div>
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div class="chat-container" id="chatContainer">
+                <div class="chat-message" style="background: var(--icon-color); color: white; text-align: center; margin-bottom: 1rem;">
+                    <div style="font-size: 3rem;">🤖</div>
+                    <strong>Hi! I'm MindWell AI Chatbot</strong><br>
+                    Your 24/7 mental health companion. How can I help?
+                </div>
+            </div>
+            <div style="display: flex; gap: 1rem; max-width: 900px;">
+                <input type="text" id="chatInput" placeholder="Type your message here..." 
+                    style="flex: 1; padding: 1.2rem; border-radius: var(--border-radius); border: 3px solid var(--icon-color); font-size: 1rem;">
+                <button class="btn-primary" onclick="sendMessage()" style="padding: 1.2rem 2rem;">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="journalPage" class="page">
+        <button class="back-btn" onclick="goHome()">
+            <i class="fas fa-home"></i>
+        </button>
+        <div class="header">
+            <h1><i class="fas fa-book"></i> Digital Journal</h1>
+            <button class="dark-toggle" onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+        </div>
+        <div style="max-width: 700px; margin: 0 auto;">
+            <div style="background: var(--card-bg); padding: 3rem; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                <textarea placeholder="Write your thoughts, feelings, and gratitude here... 📝" 
+                    style="width: 100%; height: 400px; padding: 1.5rem; border-radius: var(--border-radius); border: 2px solid var(--icon-color); font-family: inherit; font-size: 1.1rem; resize: vertical;"></textarea>
+                <button class="btn-primary" style="width: 100%; margin-top: 1.5rem;">💾 Save Journal Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let currentMood = null;
+        let isDarkMode = false;
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function goHome() {
+            document.body.className = '';
+            showPage('homePage');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (username && password) {
+                currentUser = username;
+                showPage('homePage');
+            }
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+            const icon = document.querySelectorAll('.dark-toggle i');
+            icon.forEach(i => i.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon');
+        }
+
+        function toggleProblem(problem) {
+            const content = document.getElementById(problem);
+            const btn = event.target;
+            const icon = btn.querySelector('i');
+            content.classList.toggle('content-hidden');
+            content.classList.toggle('content-visible');
+            icon.style.transform = content.classList.contains('content-visible') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        // NEW: Resource toggle function
+        function toggleResource(resource) {
+            const content = document.getElementById(resource);
+            const btn = event.target;
+            const icon = btn.querySelector('i');
+            content.classList.toggle('content-hidden');
+            content.classList.toggle('content-visible');
+            icon.style.transform = content.classList.contains('content-visible') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        // NEW: Story toggle function
+        function toggleStory(story) {
+            const content = document.getElementById(story);
+            content.classList.toggle('content-hidden');
+        }
+
+        function selectMood(mood) {
+            currentMood = mood;
+            document.body.className = `mood-${mood}`;
+            document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const tips = document.getElementById('moodTips');
+            const moodData = {
+                happy: {
+                    emoji: '😊✨',
+                    quote: '"Happiness is when what you think, what you say, and what you do are in harmony." – Mahatma Gandhi',
+                    tips: ['🎉 Celebrate small wins', '🙏 Practice gratitude', '🎵 Listen to favorite music', '👫 Connect with friends']
+                },
+                calm: {
+                    emoji: '😌🌿',
+                    quote: '"Calm mind brings inner strength and self-confidence." – Dalai Lama',
+                    tips: ['🧘‍♀️ Try deep breathing', '📖 Read a calming book', '🌳 Spend time in nature', '💧 Drink herbal tea']
+                },
+                sad: {
+                    emoji: '😢💙',
+                    quote: '"The wound is the place where the light enters you." – Rumi',
+                    tips: ['🤗 Be gentle with yourself', '💬 Talk to someone', '📝 Write in journal', '🚶‍♂️ Take a walk']
+                },
+                angry: {
+                    emoji: '😠🔥',
+                    quote: '"Holding onto anger is like drinking poison and expecting the other to die." – Buddha',
+                    tips: ['🌬️ Practice deep breathing', '🏃‍♂️ Physical exercise', '🎨 Creative expression', '🛀 Self-care routine']
+                }
+            };
+            
+            const data = moodData[mood];
+            tips.innerHTML = `
+                <h3 style="color: var(--icon-color);">${data.emoji} You're feeling ${mood}!</h3>
+                <blockquote style="font-style: italic; color: var(--text-secondary); margin: 1.5rem 0;">${data.quote}</blockquote>
+                <h4>💡 ${mood.charAt(0).toUpperCase() + mood.slice(1)} Tips:</h4>
+                <ul style="text-align: left;">${data.tips.map(tip => `<li>${tip}</li>`).join('')}</ul>
+            `;
+        }
+
+        function askHelp() {
+            const question = document.getElementById('helpQuestion').value;
+            if (question) {
+                const responses = [
+                    "Excellent question! Try the 4-7-8 breathing technique: inhale 4s, hold 7s, exhale 8s.",
+                    "Deep breathing helps 80% of anxiety cases. Practice box breathing: 4s in, 4s hold, 4s out.",
+                    "Journaling reduces stress by 25%. Write 3 things you're grateful for daily.",
+                    "Progressive muscle relaxation works wonders. Tense and release each muscle group."
+                ];
+                alert(`🤖 AI Doctor Response:\n\n"${responses[Math.floor(Math.random() * responses.length)]}"\n\n💙 Keep talking - I'm here 24/7!`);
+                document.getElementById('helpQuestion').value = '';
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const container = document.getElementById('chatContainer');
+            container.innerHTML += `<div style="background: var(--highlight); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1rem; text-align: right;">You: ${message}</div>`;
+            
+            setTimeout(() => {
+                const responses = [
+                    "Thank you for sharing. Have you tried mindfulness meditation? It's very effective.",
+                    "I understand completely. Small steps make big differences. What's one thing bothering you most?",
+                    "You're stronger than you think. Try the gratitude journal exercise tonight.",
+                    "Remember to breathe. Want me to guide you through a 1-minute relaxation exercise?",
+                    "That's valid. Journaling can help process these emotions. Want some prompts?"
+                ];
+                container.innerHTML += `<div style="background: var(--icon-color); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1rem;">
+                    <div style="font-size: 2rem;">🤖</div>
+                    ${responses[Math.floor(Math.random() * responses.length)]}
+                </div>`;
+                container.scrollTop = container.scrollHeight;
+            }, 1200);
+
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // NEW GAME FUNCTIONS
+        function breathingGame() {
+            let count = 0;
+            const game = prompt("🎯 BREATHING GAME\n\nInhale (4s) → Hold (4s) → Exhale (4s)\n\nRounds completed? (Press OK after each breath cycle)");
+            alert("🌬️ Great job! Deep breathing reduces stress hormones by 30% instantly!");
+        }
+
+        function colorMatchGame() {
+            const colors = ['🟥', '🟧', '🟨', '🟩', '🟦', '🟪'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            const guess = prompt("🎨 COLOR MATCH\n\nWhat color am I thinking of?\n" + colors.join(' '));
+            alert("🌈 Perfect! Color therapy helps regulate emotions!");
+        }
+
+        function bubblePopGame() {
+            let score = 0;
+            for(let i = 0; i < 10; i++) {
+                if(confirm("💥 POP THE BUBBLE!\nScore: " + score)) score++;
+            }
+            alert("🎉 Game Over! Final Score: " + score + "/10\nGreat stress relief!");
+        }
+
+        function spinWheelGame() {
+            const activities = ['🧘 Deep breathing', '📝 Write gratitude', '🚶 Take a walk', '💧 Drink water', '🎵 Play music'];
+            const result = activities[Math.floor(Math.random() * activities.length)];
+            alert("🎡 WHEEL SPUN!\n\nYour relaxing activity: " + result);
+        }
+
+        function gratitudeGame() {
+            const gratitude = prompt("💖 GRATITUDE JAR\n\nWhat are you grateful for today?");
+            if(gratitude) alert("✨ Beautiful! Gratitude rewires your brain for positivity!");
+        }
+
+        function affirmationGame() {
+            const affirmations = [
+                "I am strong and capable 💪",
+                "I grow through challenges 🌱", 
+                "I choose peace over worry ☮️",
+                "My mind is calm and clear 🧠",
+                "I am worthy of happiness 🌟"
+            ];
+            alert("🃏 Your affirmation card:\n\n" + affirmations[Math.floor(Math.random() * affirmations.length)]);
+        }
+
+        // Event Listeners
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+        document.getElementById('helpQuestion').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') askHelp();
+        });
+
+        // Initialize
+        document.body.className = '';
+    </script>
+</body>
+</html>
